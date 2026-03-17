@@ -1,0 +1,148 @@
+name: $(Build_BuildNumber) Automação de Notas — Demo
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+  # Equivalente ao "parameters" do azure-pipelines.yml:
+  # permite rodar manualmente com os mesmos campos configuráveis.
+  workflow_dispatch:
+    inputs:
+      TEST_TURMA:
+        description: 'Turma(s) — separadas por vírgula (ex: 9A, 8A)'
+        required: false
+        default: '9A'
+      TEST_MODULO:
+        description: 'Módulo(s)/Trimestre(s) — separados por vírgula (ex: T1, T2)'
+        required: false
+        default: 'T1'
+      TEST_MINIMO:
+        description: 'Nota mínima'
+        required: false
+        default: '4'
+      TEST_MAXIMO:
+        description: 'Nota máxima'
+        required: false
+        default: '9'
+      TEST_PARCIAL:
+        description: 'Parcial(is) — separadas por vírgula (ex: 1, 2)'
+        required: false
+        default: '1'
+
+jobs:
+  testes:
+    name: Executar testes SpecFlow + Selenium (iframe)
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      # ── 2. .NET ──────────────────────────────────────────────────────────────
+      - name: Configurar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # ── 3. Chrome ────────────────────────────────────────────────────────────
+      # ubuntu-latest já tem Chrome instalado.
+      # O pacote Selenium.WebDriver.ChromeDriver (no .csproj) cuida do driver.
+      - name: Verificar versão do Chrome
+        run: google-chrome --version
+
+      # ── 4. Substituir dados no .feature ──────────────────────────────────────
+      # Equivalente ao step PowerShell da Azure Pipeline que reescrevia a linha
+      # de Exemplos com os parâmetros recebidos. Aqui usamos bash + sed.
+      - name: Customizar dados do cenário (.feature)
+        run: |
+          FEATURE_FILE=$(find . -name "entrarEmNotasDaTurma.feature" | head -1)
+
+          if [ -z "$FEATURE_FILE" ]; then
+            echo "⚠️ Arquivo .feature não encontrado. Continuando sem substituição."
+            exit 0
+          fi
+
+          echo "📄 Arquivo encontrado: $FEATURE_FILE"
+
+          TURMA="${{ github.event.inputs.TEST_TURMA || '9A' }}"
+          MODULO="${{ github.event.inputs.TEST_MODULO || 'T1' }}"
+          MINIMO="${{ github.event.inputs.TEST_MINIMO || '4' }}"
+          MAXIMO="${{ github.event.inputs.TEST_MAXIMO || '9' }}"
+          PARCIAL="${{ github.event.inputs.TEST_PARCIAL || '1' }}"
+
+          NEW_LINE="        | $TURMA | $MODULO | $MINIMO | $MAXIMO | $PARCIAL |"
+
+          # Substitui a primeira linha de dados após o cabeçalho da tabela
+          # (mesmo que o step PowerShell fazia na Azure Pipeline)
+          awk -v new_line="$NEW_LINE" '
+            /^\s*\|/ && found_header {
+              if (!replaced) { print new_line; replaced=1; next }
+            }
+            /Exemplos:/ { found_header=1 }
+            /^\s*\| input_turma/ { found_header=2 }
+            { print }
+          ' "$FEATURE_FILE" > /tmp/feature_tmp && mv /tmp/feature_tmp "$FEATURE_FILE"
+
+          echo "✅ Dados substituídos:"
+          echo "   Turma: $TURMA | Módulo: $MODULO | Min: $MINIMO | Max: $MAXIMO | Parcial: $PARCIAL"
+
+      # ── 5. Iniciar mock app ───────────────────────────────────────────────────
+      - name: Instalar http-server
+        run: npm install -g http-server
+
+      - name: Iniciar mock app em background
+        run: |
+          http-server ./mock-app -p 5500 &
+          sleep 2
+          echo "✅ Mock app rodando em http://127.0.0.1:5500/index.html"
+
+      # ── 6. Restaurar dependências ─────────────────────────────────────────────
+      - name: Restaurar dependências
+        run: dotnet restore AutomacaoIframeDemo.csproj
+
+      # ── 7. Build ──────────────────────────────────────────────────────────────
+      - name: Build do projeto
+        run: dotnet build AutomacaoIframeDemo.csproj --no-restore --configuration Release
+
+      # ── 8. Listar testes (debug) ──────────────────────────────────────────────
+      # Equivalente ao step "Listar testes disponíveis" da Azure Pipeline
+      - name: Listar testes disponíveis
+        run: dotnet test AutomacaoIframeDemo.csproj --list-tests
+        continue-on-error: true
+
+      # ── 9. Executar testes ────────────────────────────────────────────────────
+      - name: Executar testes (filtro — digitacao)
+        env:
+          BASE_URL: "http://127.0.0.1:5500/index.html"
+          HEADLESS: "false"
+        run: |
+          dotnet test AutomacaoIframeDemo.csproj \
+            --no-build \
+            --configuration Release \
+            --filter "TestCategory=digitacao" \
+            --logger "trx;LogFileName=testresults.trx" \
+            --results-directory "${{ runner.temp }}/TestResults" \
+            || true   # continueOnError equivalente ao da Azure Pipeline
+
+      # ── 10. Publicar resultados ───────────────────────────────────────────────
+      # Equivalente ao task PublishTestResults@2 da Azure Pipeline
+      - name: Publicar relatório de testes
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: 'Digitação — ${{ github.run_number }}'
+          path: '${{ runner.temp }}/TestResults/**/*.trx'
+          reporter: dotnet-trx
+          fail-on-error: false
+
+      - name: Upload artefatos de teste (logs + trx)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-testes-${{ github.run_number }}
+          path: |
+            ${{ runner.temp }}/TestResults/
+            **/Logs/*.log

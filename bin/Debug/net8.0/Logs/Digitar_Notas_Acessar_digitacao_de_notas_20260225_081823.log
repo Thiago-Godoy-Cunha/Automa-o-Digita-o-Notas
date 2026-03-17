@@ -1,0 +1,47 @@
+﻿[08:18:23.694] === LOG INICIADO: 25/02/2026 08:18:23 ===
+[08:18:23.723] [Given] Abrindo portal de demonstração: http://127.0.0.1:5500/index.html
+[08:18:24.299]   URL atual: http://127.0.0.1:5500/index.html
+[08:18:24.364]   Portal carregado — iframe de notas localizado
+[08:18:24.382] Acessando notas da turma: '9A'
+[08:18:24.384] Acessando turma: 9A
+[08:18:24.559] Turma '9A' selecionada no dropdown
+[08:18:24.577] Selecionando módulo: 'T1'
+[08:18:24.688] Módulo/trimestre 'T1' selecionado
+[08:18:24.748] Parciais encontradas: 30
+[08:18:24.778] Digitando notas — Turma: 9A | Módulo: T1
+[08:18:24.781] Parciais solicitadas: 1
+[08:18:24.781] Processando parcial 1: Parcial 1
+[08:18:25.079]   Aluno 1: nota 9
+[08:18:25.281]   Aluno 2: nota 8,2
+[08:18:25.490]   Aluno 3: nota 4,2
+[08:18:25.729]   Aluno 4: nota 9
+[08:18:25.930]   Aluno 5: nota 8,2
+[08:18:26.133]   Aluno 6: nota 5,5
+[08:18:26.348]   Aluno 7: nota 5,1
+[08:18:26.542]   Aluno 8: nota 8,9
+[08:18:26.725]   Aluno 9: nota 7,6
+[08:18:26.908]   Aluno 10: nota 5,1
+[08:18:27.095]   Aluno 11: nota 5,8
+[08:18:27.277]   Aluno 12: nota 7,1
+[08:18:27.473]   Aluno 13: nota 7,6
+[08:18:27.682]   Aluno 14: nota 5,9
+[08:18:27.892]   Aluno 15: nota 6,6
+[08:18:28.083]   Aluno 16: nota 6,8
+[08:18:28.303]   Aluno 17: nota 8,7
+[08:18:28.477]   Aluno 18: nota 7,9
+[08:18:28.683]   Aluno 19: nota 7,5
+[08:18:28.895]   Aluno 20: nota 7,2
+[08:18:29.155]   Aluno 21: nota 6,2
+[08:18:29.337]   Aluno 22: nota 8,4
+[08:18:29.536]   Aluno 23: nota 9
+[08:18:29.753]   Aluno 24: nota 6,7
+[08:18:29.939]   Aluno 25: nota 8,9
+[08:18:30.136]   Aluno 26: nota 7,4
+[08:18:30.321]   Aluno 27: nota 4,5
+[08:18:30.505]   Aluno 28: nota 5,9
+[08:18:30.688]   Aluno 29: nota 4,3
+[08:18:30.898]   Aluno 30: nota 6,7
+[08:18:36.354] ⚠️ Confirmação de salvamento não detectada
+[08:18:36.356] Módulo 'T1' concluído
+[08:18:36.356] Turma '9A' finalizada
+[08:18:36.541] === LOG FINALIZADO: 25/02/2026 08:18:36 ===

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lançamento de Notas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3248;
+      --accent: #4f7cff;
+      --text: #e8eaf0;
+      --muted: #7b82a0;
+      --success: #3ecf8e;
+      --error: #f87171;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.25rem;
+    }
+
+    /* ── Filtros superiores ── */
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    label {
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    select, input[type="number"] {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      padding: 0.5rem 0.65rem;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    select:focus, input[type="number"]:focus { border-color: var(--accent); }
+    select option { background: var(--surface2); }
+
+    /* ── Tabela ── */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      min-width: 860px;
+    }
+
+    /* Cabeçalho de grupo (linha 1) */
+    thead tr.group-row th {
+      background: var(--surface);
+      text-align: center;
+      padding: 0.6rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead tr.group-row th.group-header {
+      color: var(--text);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    /* Cabeçalho de coluna (linha 2) */
+    thead tr.col-row th {
+      background: var(--surface2);
+      text-align: center;
+      padding: 0.5rem 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead tr.col-row th.sep { border-left: 1px solid var(--border); }
+
+    /* Linhas de dados */
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(79, 124, 255, 0.04); }
+
+    td {
+      padding: 0.45rem 0.65rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+    }
+
+    td.col-name {
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    td.col-num {
+      color: var(--muted);
+      font-size: 0.72rem;
+      width: 36px;
+    }
+
+    td.sep { border-left: 1px solid var(--border); }
+
+    td.muted-val { color: var(--muted); }
+
+    /* Inputs de nota dentro da tabela */
+    td input.nota-input {
+      width: 62px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.4rem;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    td input.nota-input:focus { border-color: var(--accent); }
+
+    /* Input de faltas (menor) */
+    td input.faltas-input {
+      width: 46px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.3rem;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    td input.faltas-input:focus { border-color: var(--accent); }
+
+    /* Coluna Dig afa */
+    td.dig-afa { color: var(--muted); font-size: 0.72rem; }
+
+    /* Média calculada */
+    td.media-calc { color: var(--accent); font-weight: 600; }
+
+    /* ── Rodapé de ações ── */
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    button {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.55rem 1.1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    button:hover { opacity: 0.82; }
+
+    .btn-primary  { background: var(--accent); color: #fff; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* Feedback */
+    #feedback-msg {
+      display: none;
+      padding: 0.65rem 1rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      background: rgba(62, 207, 142, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Filtros -->
+  <div class="filters">
+    <div class="field">
+      <label for="turma">Turma</label>
+      <select id="turma" name="turma">
+        <option value="">Selecione</option>
+        <option value="6A">6º Ano A</option>
+        <option value="7A">7º Ano A</option>
+        <option value="8A">8º Ano A</option>
+        <option value="9A">9º Ano A</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="trimestre">Trimestre</label>
+      <select id="trimestre" name="trimestre">
+        <option value="">Selecione</option>
+        <option value="T1">1º Trimestre</option>
+        <option value="T2">2º Trimestre</option>
+        <option value="T3">3º Trimestre</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="parcial">Parcial</label>
+      <select id="parcial" name="parcial">
+        <option value="">Selecione</option>
+        <option value="prova">Prova</option>
+        <option value="trabalho">Trabalho</option>
+        <option value="avaliacao">Avaliação</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabela principal -->
+  <div class="table-wrap">
+    <table id="tabela-alunos">
+      <thead>
+        <!-- Linha 1: grupos -->
+        <tr class="group-row">
+          <th colspan="2"></th>
+          <th colspan="2" class="group-header">1º Trimestre</th>
+          <th colspan="2" class="group-header">2º Trimestre</th>
+          <th colspan="2" class="group-header">3º Trimestre</th>
+          <th colspan="1" class="group-header">Média</th>
+        </tr>
+        <!-- Linha 2: colunas -->
+        <tr class="col-row">
+          <th>Nº</th>
+          <th>Nome</th>
+          <th class="sep">Nota</th>
+          <th>Faltas</th>
+          <th class="sep">Nota</th>
+          <th>Faltas</th>
+          <th class="sep">Nota</th>
+          <th>Faltas</th>
+          <th class="sep">Final</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-alunos">
+        <!-- gerado por JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Rodapé -->
+  <div class="footer">
+    <div id="feedback-msg">✓ Notas salvas com sucesso!</div>
+    <button class="btn-secondary" onclick="limpar()">Limpar</button>
+    <button class="btn-primary" id="btn-salvar" onclick="salvar()">Salvar Notas</button>
+  </div>
+
+  <script>
+    const alunos = [
+      { num: 1, nome: 'ANA'      },
+      { num: 2, nome: 'BERNARDO' },
+      { num: 3, nome: 'DAVI'     },
+      { num: 4, nome: 'ISADORA'  },
+      { num: 5, nome: 'JOANA'    },
+      { num: 6, nome: 'JOÃO'     },
+      { num: 7, nome: 'LORENZO'  },
+      { num: 8, nome: 'LUCAS'    },
+      { num: 9, nome: 'LUIZA'    },
+      { num: 10, nome: 'LUNA'    },
+    ];
+
+    const tbody = document.getElementById('tbody-alunos');
+
+    alunos.forEach(a => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="col-num">${a.num}</td>
+        <td class="col-name">${a.nome}</td>
+
+        <td class="sep">
+          <input type="number" class="nota-input" id="nota-t1-${a.num}"
+            name="nota_t1_${a.num}" min="0" max="10" step="0.1" placeholder="—" />
+        </td>
+        <td>
+          <input type="number" class="faltas-input" id="faltas-t1-${a.num}"
+            name="faltas_t1_${a.num}" min="0" step="1" placeholder="0" />
+        </td>
+
+        <td class="sep">
+          <input type="number" class="nota-input" id="nota-t2-${a.num}"
+            name="nota_t2_${a.num}" min="0" max="10" step="0.1" placeholder="—" />
+        </td>
+        <td>
+          <input type="number" class="faltas-input" id="faltas-t2-${a.num}"
+            name="faltas_t2_${a.num}" min="0" step="1" placeholder="0" />
+        </td>
+
+        <td class="sep">
+          <input type="number" class="nota-input" id="nota-t3-${a.num}"
+            name="nota_t3_${a.num}" min="0" max="10" step="0.1" placeholder="—" />
+        </td>
+        <td>
+          <input type="number" class="faltas-input" id="faltas-t3-${a.num}"
+            name="faltas_t3_${a.num}" min="0" step="1" placeholder="0" />
+        </td>
+
+        <td class="sep media-calc" id="media-final-${a.num}">—</td>
+      `;
+      tbody.appendChild(tr);
+
+      // Recalcula média ao alterar qualquer nota do aluno
+      ['nota-t1','nota-t2','nota-t3'].forEach(prefix => {
+        document.getElementById(`${prefix}-${a.num}`)
+          .addEventListener('input', () => calcularMedia(a.num));
+      });
+    });
+
+    function calcularMedia(num) {
+      const v1 = parseFloat(document.getElementById(`nota-t1-${num}`).value);
+      const v2 = parseFloat(document.getElementById(`nota-t2-${num}`).value);
+      const v3 = parseFloat(document.getElementById(`nota-t3-${num}`).value);
+      const el = document.getElementById(`media-final-${num}`);
+
+      const vals = [v1, v2, v3].filter(v => !isNaN(v));
+      if (vals.length === 0) { el.textContent = '—'; return; }
+
+      const media = vals.reduce((a, b) => a + b, 0) / vals.length;
+      el.textContent = media.toFixed(1);
+    }
+
+    function salvar() {
+      const min = parseFloat(document.getElementById('nota-min').value);
+      const max = parseFloat(document.getElementById('nota-max').value);
+      const hasRange = !isNaN(min) && !isNaN(max);
+
+      let valido = true;
+
+      document.querySelectorAll('.nota-input').forEach(input => {
+        const val = parseFloat(input.value);
+        if (input.value === '') return;
+        if (hasRange && (!isNaN(val)) && (val < min || val > max)) {
+          input.style.borderColor = '#f87171';
+          valido = false;
+        } else {
+          input.style.borderColor = '';
+        }
+      });
+
+      if (valido) {
+        const fb = document.getElementById('feedback-msg');
+        fb.style.display = 'block';
+        setTimeout(() => fb.style.display = 'none', 3000);
+      }
+    }
+
+    function limpar() {
+      document.querySelectorAll('.nota-input, .faltas-input').forEach(i => {
+        i.value = '';
+        i.style.borderColor = '';
+      });
+      alunos.forEach(a => {
+        document.getElementById(`media-final-${a.num}`).textContent = '—';
+      });
+      document.getElementById('feedback-msg').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

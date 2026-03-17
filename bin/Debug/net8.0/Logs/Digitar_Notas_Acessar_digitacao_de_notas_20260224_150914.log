@@ -1,0 +1,7 @@
+﻿[15:09:14.652] === LOG INICIADO: 24/02/2026 15:09:14 ===
+[15:09:14.686] [Given] Abrindo portal de demonstração: http://127.0.0.1:5500/index.html
+[15:09:15.329]   URL atual: http://127.0.0.1:5500/index.html
+[15:09:15.408]   Portal carregado — iframe de notas localizado
+[15:09:15.428] Acessando notas da turma: '9A'
+[15:09:15.430] Acessando turma: 9A
+[15:09:16.131] === LOG FINALIZADO: 24/02/2026 15:09:16 ===

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal do Professor - Colégio Demo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3248;
+      --accent: #4f7cff;
+      --accent2: #7c5cfc;
+      --text: #e8eaf0;
+      --muted: #7b82a0;
+      --success: #3ecf8e;
+      --warning: #f5a623;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .user-badge {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      height: calc(100vh - 60px);
+    }
+
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1rem;
+    }
+
+    .nav-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-item {
+      display: block;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+      cursor: pointer;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    main {
+      padding: 2rem;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    .page-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .iframe-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .iframe-header {
+      padding: 0.875rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .iframe-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Colégio Demo — Portal do Professor
+  </div>
+</header>
+
+<div class="layout">
+  <nav>
+    <div class="nav-label">Menu</div>
+    <a class="nav-item">Dashboard</a>
+    <a class="nav-item">Turmas</a>
+    <a class="nav-item active">Lançamento de Notas</a>
+    <a class="nav-item">Frequência</a>
+    <a class="nav-item">Relatórios</a>
+  </nav>
+
+  <main>
+    <div class="page-title">Lançamento de Notas</div>
+    <div class="page-sub">Módulo compartilhado carregado via iframe</div>
+
+    <div class="iframe-container">
+      <div class="iframe-header">
+        <div class="iframe-dot" style="background:#f87171"></div>
+        <div class="iframe-dot" style="background:#fbbf24"></div>
+        <div class="iframe-dot" style="background:#34d399"></div>
+        &nbsp; notas/lancamento.html
+      </div>
+      <iframe id="notas-frame" src="notas.html" title="Módulo de Notas"></iframe>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
