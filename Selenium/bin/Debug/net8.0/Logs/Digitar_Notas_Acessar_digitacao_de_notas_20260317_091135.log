@@ -1,0 +1,46 @@
+﻿[09:11:35.877] === LOG INICIADO: 17/03/2026 09:11:35 ===
+[09:11:35.888] [Given] Abrindo portal de demonstração: https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/
+[09:11:36.562]   URL atual: https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/
+[09:11:36.627]   Portal carregado — iframe de notas localizado
+[09:11:36.641] Acessando notas da turma: '9A'
+[09:11:36.644] Acessando turma: 9A
+[09:11:36.813] Turma '9A' selecionada no dropdown
+[09:11:36.842] Selecionando módulo: 'T1'
+[09:11:37.043] Módulo/trimestre 'T1' selecionado
+[09:11:37.134] Parciais encontradas: 30
+[09:11:37.177] Digitando notas — Turma: 9A | Módulo: T1
+[09:11:37.183] Parciais solicitadas: 1
+[09:11:37.184] Processando parcial 1: Parcial 1
+[09:11:37.572]   Aluno 1: nota 6,5
+[09:11:37.866]   Aluno 2: nota 5,8
+[09:11:38.125]   Aluno 3: nota 5
+[09:11:38.379]   Aluno 4: nota 4,7
+[09:11:38.647]   Aluno 5: nota 5,6
+[09:11:38.883]   Aluno 6: nota 6,2
+[09:11:39.099]   Aluno 7: nota 4,3
+[09:11:39.319]   Aluno 8: nota 7,7
+[09:11:39.567]   Aluno 9: nota 7
+[09:11:39.816]   Aluno 10: nota 5,8
+[09:11:40.030]   Aluno 11: nota 6
+[09:11:40.257]   Aluno 12: nota 4,1
+[09:11:40.481]   Aluno 13: nota 8,7
+[09:11:40.698]   Aluno 14: nota 5,6
+[09:11:40.937]   Aluno 15: nota 6
+[09:11:41.204]   Aluno 16: nota 5,4
+[09:11:41.449]   Aluno 17: nota 8,3
+[09:11:41.655]   Aluno 18: nota 6,8
+[09:11:41.903]   Aluno 19: nota 6,1
+[09:11:42.129]   Aluno 20: nota 8,3
+[09:11:42.353]   Aluno 21: nota 4,3
+[09:11:42.585]   Aluno 22: nota 6,1
+[09:11:42.817]   Aluno 23: nota 5,8
+[09:11:43.054]   Aluno 24: nota 4,1
+[09:11:43.296]   Aluno 25: nota 6,5
+[09:11:43.531]   Aluno 26: nota 4,5
+[09:11:43.758]   Aluno 27: nota 6,6
+[09:11:43.991]   Aluno 28: nota 7,6
+[09:11:44.229]   Aluno 29: nota 7,4
+[09:11:44.453]   Aluno 30: nota 7,1
+[09:11:44.653] Módulo 'T1' concluído
+[09:11:44.654] Turma '9A' finalizada
+[09:11:44.919] === LOG FINALIZADO: 17/03/2026 09:11:44 ===

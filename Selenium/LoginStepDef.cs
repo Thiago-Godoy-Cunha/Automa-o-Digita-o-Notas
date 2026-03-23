@@ -23,7 +23,7 @@ namespace AutomacaoIframeDemo.Steps
         public void GivenQueEstouLogadoNoPortal()
         {
             var baseUrl = Environment.GetEnvironmentVariable("BASE_URL")
-                          ?? "http://127.0.0.1:5500/index.html";
+                          ?? "https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/";
 
             LogHelper.WriteLine($"[Given] Abrindo portal de demonstração: {baseUrl}");
             Driver.Navigate().GoToUrl(baseUrl);

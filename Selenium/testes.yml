@@ -97,7 +97,7 @@ jobs:
         run: |
           http-server ./mock-app -p 5500 &
           sleep 2
-          echo "✅ Mock app rodando em http://127.0.0.1:5500/index.html"
+          echo "✅ Mock app rodando em https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/"
 
       # ── 6. Restaurar dependências ─────────────────────────────────────────────
       - name: Restaurar dependências
@@ -116,7 +116,7 @@ jobs:
       # ── 9. Executar testes ────────────────────────────────────────────────────
       - name: Executar testes (filtro — digitacao)
         env:
-          BASE_URL: "http://127.0.0.1:5500/index.html"
+          BASE_URL: "https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/"
           HEADLESS: "false"
         run: |
           dotnet test AutomacaoIframeDemo.csproj \

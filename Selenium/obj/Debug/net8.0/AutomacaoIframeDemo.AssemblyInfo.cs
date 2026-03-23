@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutomacaoIframeDemo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e286402a49d8b71e234a362fd72351948848622")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutomacaoIframeDemo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutomacaoIframeDemo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

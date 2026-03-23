@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tcunha\\Downloads\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj": {}
+    "C:\\Users\\tcunha\\Documents\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tcunha\\Downloads\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj": {
+    "C:\\Users\\tcunha\\Documents\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tcunha\\Downloads\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj",
+        "projectUniqueName": "C:\\Users\\tcunha\\Documents\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj",
         "projectName": "AutomacaoIframeDemo",
-        "projectPath": "C:\\Users\\tcunha\\Downloads\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj",
+        "projectPath": "C:\\Users\\tcunha\\Documents\\AutomacaoIframeGenerico\\AutomacaoIframeDemo.csproj",
         "packagesPath": "C:\\Users\\tcunha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tcunha\\Downloads\\AutomacaoIframeGenerico\\obj\\",
+        "outputPath": "C:\\Users\\tcunha\\Documents\\AutomacaoIframeGenerico\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tcunha\\AppData\\Roaming\\NuGet\\NuGet.Config"
