@@ -34,7 +34,7 @@ jobs:
 
       - name: Instalar dependências
         run:  npm install
-        working-directory: ./cypress
+        working-directory: ./Cypress
 
       - name: Rodar Cypress
         run: |
