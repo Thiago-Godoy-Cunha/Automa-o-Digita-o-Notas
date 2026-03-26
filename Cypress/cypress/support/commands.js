@@ -23,12 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.Commands.add('SelecionarIframe', (iframeSelector) => {
+Cypress.Commands.add('SelecionarIframe', () => {
     return cy
-    .get(iframeSelector)
-    .its('0.contentDocument.body', { timeout: 15000 })
-    .should('exist')
-    .its('body')
-    .should('not.be.empty')
-    .then(cy.wrap)
+    .iframe('#notas-frame', { timeout: 40000 })
 })
+
+Cypress.Commands.add('forEachElement', (xpath, callback) => {
+  cy.xpath(xpath, { timeout: 40000 }).each(($el, index) => {
+    callback($el, index); 
+  });
+});

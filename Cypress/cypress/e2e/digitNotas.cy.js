@@ -1,21 +1,21 @@
-import {login} from '../../login'
+const modulos = [ '1', '2', '3' ];
 
 describe('Digitar notas', () => {
-  beforeEach(() =>{
-    login('FF', '#Acesso123', 'https://gvdigital02-dev.professor.gvdasa.com.br')
-  });
+  before(() => {
+    cy.visit('https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/')
+  })
 
-  it('Pula o iframe e acessa a página de notas diretamente', () => {
-  AcessarDigitacaoDeNotas(172);
-
-  cy.iframe('#note-typing-iframe', { timeout: 40000 })
-    .contains('p', 'Legenda', { timeout: 30000 })
-    .click()
+  modulos.forEach((modulo) => {
+    it(`Lançando notas no Módulo ${modulo}`, () => {      
+      cy.SelecionarIframe().within(() => { 
+        cy.get('#trimestre', {timeout:40000}).select(`${modulo}º Trimestre`); 
+        cy.forEachElement('//td/input[contains(@class, "nota")]', ($elNotaAlunos) => { 
+          const formatoBR = new Intl.NumberFormat('pt-BR');
+          var nota = (Math.random() * 10).toFixed(1)
+          cy.wrap($elNotaAlunos).type(`${formatoBR.format(nota)}`)
+          cy.get('#btn-salvar').click(); 
+        });
+      });
+    });  
   });
-  // Criar função loopando digitação
-  
 })
-
-function AcessarDigitacaoDeNotas(turma){
-    cy.xpath(`//div[text()='${turma}']/../div/div/button[text()='NO']`).click()
-}
