@@ -1,0 +1,59 @@
+name: Cypress Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      TEST_URL:
+        description: "URL da aplicação"
+        default: "https://thiaiaiago.github.io/Automa-o-Digita-o-Notas/"
+
+      TEST_CENARIOS:
+        description: "Módulos (ex: 1,2,3)"
+        default: "1,2,3"
+
+      TEST_MINIMO:
+        description: "Nota mínima"
+        default: "1"
+
+      TEST_MAXIMO:
+        description: "Nota máxima"
+        default: "10"
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar Cypress
+        run: |
+          npx cypress run \
+            --env \
+              TEST_URL=${{ github.event.inputs.TEST_URL }},\
+              TEST_CENARIOS=${{ github.event.inputs.TEST_CENARIOS }},\
+              TEST_MINIMO=${{ github.event.inputs.TEST_MINIMO }},\
+              TEST_MAXIMO=${{ github.event.inputs.TEST_MAXIMO }}
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: cypress/screenshots
+
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: cypress/videos
