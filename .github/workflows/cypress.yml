@@ -33,7 +33,7 @@ jobs:
           node-version: 20
 
       - name: Instalar dependências
-        run: cd Cypress npm install
+        run: cd Cypress & npm install
 
       - name: Rodar Cypress
         run: |
