@@ -33,11 +33,12 @@ jobs:
           node-version: 20
 
       - name: Instalar dependências
-        run: cd Cypress npm install
+        run: npm install
+        working-directory: ./Cypress
 
       - name: Rodar Cypress
         run: npx cypress run
-        working-directory: ./cypress
+        working-directory: ./Cypress
         env:
             TEST_URL: ${{ github.event.inputs.TEST_URL }}
             TEST_CENARIOS: ${{ github.event.inputs.TEST_CENARIOS }}
